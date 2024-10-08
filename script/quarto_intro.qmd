@@ -1,0 +1,84 @@
+---
+title: "intro-to-quarto"
+author: "Brooke"
+format: html
+editor: visual
+execute: 
+  warning: false
+  message: false
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+#| eval: true # ignore the code and don't run it
+#| warning: false # whether or not to display warnings
+#| message: false # whether or not to show diagnostic messages
+#| include: false # code and the output
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+# Level 1 Header
+
+This is regular plain text.
+
+## Level 2 Header
+
+Making a bulleted list
+
+-   bullet 1
+-   list item 2
+-   three
+    -   indented bullet item
+    -   item whatever
+
+1.  Numbered list
+2.  list item 2
+3.  list item 3
+
+If i want *italics* I can add an asterics before and after or an *underscore* before and after
+
+If I two **two** asterics before and after its **bold**
+
+***three asterics before and after is bold and italics***
+
+```{r important r code}
+x <- 1+1
+# within curly brackets organizes and names chunk but doesn't show up as title or anything
+```
+
+```{r}
+# command option i for creating a code chunk on macs
+```
+
+| Col1 | Col2 | Col3 |
+|------|------|------|
+|      |      |      |
+|      |      |      |
+|      |      |      |
+|      |      |      |
+|      |      |      |
+
+: table 1
+
+```{r}
+
+
+
+
+```

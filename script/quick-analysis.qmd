@@ -1,0 +1,88 @@
+---
+title: "Quick Analysis"
+format: html
+editor: visual
+---
+
+# Introduction
+
+## About the data
+
+The data for this analysis were downloaded from arctic data center on October 7, 2024: [Arctic Data Center](https://arcticdata.io/catalog/view/doi:10.18739/A25T3FZ8X)
+
+## Setup
+
+Attach important packages
+
+```{r}
+library(readr) # functions for reading in types of file
+library(here)
+```
+
+## Read in the data
+
+```{r}
+#| message: false
+#| warning: false
+bg_chem <- read_csv(here("data","BGchem2008data.csv"))
+# dbl refers to number with a decimel in it
+# dttm is a date time class
+
+```
+
+# Analysis
+
+## Calculate the summary statistics
+
+```{r}
+#| eval: false ### don't run the code in final product
+#| echo: false ### don't show the code in the final report either
+### print the column names
+# shift command c shortcut for commenting out codes. triple hashtags for titles and notes
+
+colnames(bg_chem)
+
+### get the general structure
+str(bg_chem)
+
+### first six lines
+head(bg_chem)
+
+### get a summary of each column
+summary(bg_chem)
+
+### unique values of a column
+unique(bg_chem$Date)
+```
+
+Calculate the summary statisitcs for nitrate, nitrite, ammonia, and phosphate
+
+```{r}
+nitrate <- mean(bg_chem$NO3)
+nitrite <- mean(bg_chem$NO2)
+ammonia <- mean(bg_chem$NH4)
+phos <- mean(bg_chem$P)
+# is there a shortcut for running whole code chunk
+
+```
+
+## Calculate the mean Redfield ratio
+
+Redfield ratio is the ratio of nitrogen (added together) to phosphorous
+
+```{r}
+ratio <- (nitrate + nitrite + ammonia)/phos
+```
+
+The redfield ratio for this dataset is approximately `r round(ratio)`
+Hitting command + return within those ticks tells us what that number is going to look like (i.e. "6")
+
+## Plot Redfield ratio
+
+```{r}
+#| echo: false
+plot(bg_chem$P, bg_chem$NO2 + bg_chem$NO3 + bg_chem$NH4)
+```
+
+# Conclusion
+
