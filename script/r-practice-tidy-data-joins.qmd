@@ -1,0 +1,119 @@
+---
+title: "R Practice: Tidy Data and Joins"
+author: "Brooke"
+format: html
+---
+
+## Setup
+```{r}
+#| message:false
+library(readr)
+library(dplyr)
+library(here)
+library(lubridate) # for bonus question
+
+# Quick question: Do you get a message after loading the libraries? What is it telling you? Talk to your neighbor about it or write a note in your qmd.
+
+# message tells us the root path and how objects in lubridate 
+# are covering up objects in base R
+```
+
+## Read Data
+```{r}
+bird_observations <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cap.256.10&entityid=53edaa7a0e083013d9bf20322db1780e")
+
+sites <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cap.256.10&entityid=81bf72420e69077097fb0790dcdc63a6")
+
+surveys <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cap.256.10&entityid=b2466fa5cb5ed7ee1ea91398fc291c59")
+
+taxalist <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cap.256.10&entityid=58f863b7e3066e68536a9cacdc7bd58e")
+```
+
+## Explore Data
+```{r}
+View(bird_observations)
+View(sites)
+View(surveys)
+View(taxalist)
+
+colnames(bird_observations)
+
+head(bird_observations)
+summary(bird_observations)
+unique(bird_observations$species_id)
+glimpse(bird_observations)
+```
+
+Primary keys:
+taxalist$species_id
+surveys$survey_id 
+sites$site_id
+bird_observations[c(survey_id, site_id,species_id)]
+
+Foreign Keys:
+surveys$site_id
+bird_observations$survey_id
+bird_observations$site_id
+bird_observations$species_id
+
+
+Write code to create a subset of bird_observations called birds_subset that only contains observations for birds with species id BHCO and RWBL, and from sites with site ID LI-W and NU-C.
+
+## Clean and Reshape
+```{r}
+birds_subset <- bird_observations %>% 
+  filter(species_id == "BHCO" | species_id == "RWBL") %>% 
+  filter(site_id == "LI-W" | site_id == "NU-C")
+
+unique(birds_subset$species_id)
+unique(birds_subset$site_id)
+
+# you can also do it this way
+birds_subset_2 <- bird_observations %>% 
+  filter(species_id %in% c("BHCO", "RWBL")) %>% 
+  filter(site_id %in% c("LI-W", "NU-C"))
+```
+
+## Practice Joining
+```{r}
+birds_left <- left_join(birds_subset,sites, by = join_by(site_id))
+
+# use full join. It's going to be chaotic, everything gets kept from both. It will contain all the site data for non-focal sites
+birds_full <- full_join(birds_subset,sites, by = join_by(site_id))
+
+
+# I expect inner join to be small, only merging the values that both have in common. but if our taxa list doesn't have our species, we will lose those data
+birds_inner <- inner_join(birds_subset,taxalist, by = join_by(species_id))
+
+birds_left <- left_join(birds_subset, taxalist, by = join_by(species_id))
+# these look the same
+```
+
+### Wrangle all 
+```{r}
+bird_observations <- bird_observations %>% 
+  rename(birds_obs_notes = notes) # new_name = old_name
+
+# first join sites to surveys
+site_survey <- left_join(surveys,sites,by = join_by(site_id))
+
+# then join taxa to birds obs
+birds_w_taxa <- left_join(bird_observations,taxalist,by = join_by(species_id))
+
+# then join birds obs to site-survey
+birds_full <- left_join(birds_w_taxa,site_survey,by = join_by(survey_id,site_id))
+
+# and finally limit to only columns survey_date, common_name, park_name, bird_count, and observer.
+colnames(birds_full)
+birds_obs_subset <- birds_full %>% 
+  select(survey_date, common_name, park_name, bird_count, observer)
+
+unique(birds_obs_subset$observer)
+
+birds_obs_subset <- birds_obs_subset %>% 
+  mutate(observer = if_else(condition = observer == "Josh Burns",
+                            true = "J. Burns",
+                            false = observer) )
+
+```
+
