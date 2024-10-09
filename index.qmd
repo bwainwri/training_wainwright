@@ -5,3 +5,14 @@ format: html
 ---
 
 These are all the materials from the coreR Course (October 2024). You have to render in order to create the html.
+
+## Course Lessons
+- [Intro to Literate Analysis](script/quick_analysis.html)
+- [Cleaning and Wrangling data](script/cleaning_and_wrangling.html)
+- Data Visualization
+- Functions
+
+## Practice Sessions
+- Practice I
+- Practice II
+- Practice III
