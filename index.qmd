@@ -16,3 +16,22 @@ These are all the materials from the coreR Course (October 2024). You have to re
 - Practice I
 - Practice II
 - Practice III
+
+## Setup
+```{r}
+library(readr)
+library(dplyr)
+library(tidyr)
+library(forcats) # makes working with factors easier
+library(ggplot2)
+library(leaflet) # interactive maps
+library(DT) # interactive tables
+library(scales) # scale functions for visualization
+library(janitor) # expedite cleaning and exploring data
+library(viridis) # colorblind friendly color palette
+```
+
+
+
+
+
