@@ -87,6 +87,8 @@ birds_inner <- inner_join(birds_subset,taxalist, by = join_by(species_id))
 
 birds_left <- left_join(birds_subset, taxalist, by = join_by(species_id))
 # these look the same
+
+# You should plan to know what dimensions the product should be
 ```
 
 ### Wrangle all 
