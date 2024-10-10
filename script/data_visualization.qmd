@@ -183,5 +183,3 @@ ggsave(here::here("plots/visits_restore_site_delta.jpg"), width = 12, height = 6
 
 
 
-
-
