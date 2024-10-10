@@ -1,0 +1,180 @@
+---
+title: "Writing Functions"
+author: "Brooke W"
+format: 
+  html: 
+    toc: true
+    code-fold: true
+    embed-resources: true
+---
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+```
+
+
+## Temperature conversion
+
+```{r}
+airtemps <- c(212, 30.3, 78, 32) # temps in fahrenheit
+celsius1 <- (airtemps[1] - 32)*5 / 9
+celsius2 <- (airtemps[2] - 32)*5 / 9
+celsius3 <- (airtemps[3] - 32)*5 / 9
+
+# creating a function simplifies the process and also communicates what we're doing (fahrenheit to celsius)
+
+```
+
+```{r}
+convert_f_to_c <- function(fahr) {
+  celsius <- (fahr - 32) * 5 / 9
+  return(celsius)
+}
+
+celsius1a <- convert_f_to_c(airtemps[1])
+
+
+airtemps_c <- convert_f_to_c(airtemps)
+```
+
+## Exercise: convert celsius to fahrenheit
+
+```{r}
+
+convert_c_to_f <- function(celsius) {
+  fahrenheit <- celsius*9/5 + 32
+  return(fahrenheit)
+}
+
+
+airtemps_f <- convert_c_to_f(airtemps_c)
+
+```
+
+```{r}
+convert_temps <- function(fahr) {
+  celsius <- (fahr - 32) * 5 / 9
+  kelvin <- celsius + 273.15
+  return(list(f = fahr,
+              c = celsius,
+              k = kelvin))
+}
+
+t_vec <- c(-100, -40, 0, 32, 98.6, 212)
+
+
+data.frame(convert_temps(fahr = t_vec))
+```
+
+We can use functions we've already made within our new function
+
+```{r}
+convert_temps <- function(fahr) {
+  #celsius <- (fahr - 32) * 5 / 9
+  celsius <- convert_f_to_c(fahr = fahr)
+  kelvin <- celsius + 273.15
+  return(list(f = fahr,
+              c = celsius,
+              k = kelvin))
+}
+
+t_vec <- c(-100, -40, 0, 32, 98.6, 212)
+
+
+data.frame(convert_temps(fahr = t_vec))
+```
+
+
+```{r}
+convert_temps2 <- function(temp, unit = 'F') {
+  ### error checking
+  unit <- toupper(unit)
+  if(!unit %in% c('C','F')) stop('Unit must be C or F')
+  
+  if(unit == 'F') {
+   fahr <- temp
+   celsius <- convert_f_to_c(fahr)
+  } else {
+    celsius <- temp
+    fahr <- convert_c_to_f(celsius)
+  }
+  kelvin <- celsius + 273.15
+  
+  out_df <- data.frame(fahr, celsius, kelvin)
+  return(out_df)
+}
+```
+
+```{r}
+c_temps_df <- convert_temps2(temp = t_vec, unit = 'C')
+
+f_temps_df <- convert_temps2(temp = t_vec, unit = 'F')
+```
+
+
+## Functions in the Tidyverse
+
+```{r}
+f_temps_df %>% 
+  select(fahr,celsius) %>% 
+  mutate(rankine = fahr + 459.67)
+
+
+## if I want to make a function in tidyverse. I need to make sure the input is a dataframe and each iterative object is a dataframe.
+
+```
+
+
+
+```{r}
+calc_hotcold <- function(df, thresh = 70) {
+  if(!'fahr' %in% names(df)) stop('The dataframe must contain a column called fahr')
+  
+  out_df <- df %>% 
+    mutate(hotcold = if_else(condition = (fahr > thresh),
+                             true = 'hot',
+                             false = 'cold'))
+  return(out_df)
+}
+
+f_temps_df %>% 
+  select(fahr, celsius) %>% 
+  calc_hotcold(thresh = 55) %>% 
+  arrange(desc(fahr))
+
+f_temps_df %>% 
+  select(fahr, celsius) %>% 
+  calc_hotcold(thresh = 55) %>% 
+  arrange(desc(fahr))
+```
+
+
+## Create a custom theme for `ggplot()`
+
+```{r}
+make_beautiful <- function(base_size = 9) {
+  ggplot2::theme_bw() +
+    ggplot2::theme(
+      text = element_text(family = 'serif',
+                          color = 'grey30',
+                          size = base_size),
+      plot.title = element_text(size = rel(1.25),
+                                hjust = 0.5,
+                                face = 'bold'),
+      panel.background = element_rect(fill = 'azure')
+    )
+}
+
+ggplot(f_temps_df, aes(x = fahr, y = celsius, color = kelvin)) +
+  geom_point()+
+  labs(title = 'cool plot')+
+  make_beautiful()
+
+
+
+
+```
+
