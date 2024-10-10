@@ -6,6 +6,7 @@ editor: visual
 execute: 
   warning: false
   message: false
+bibliography: references.bib
 ---
 
 ## Quarto
@@ -82,3 +83,7 @@ x <- 1+1
 
 
 ```
+
+[@funk2023]
+
+\^\^ To add this I stayed in the visual editor of quarto and went to insert \> citation and that makes it pretty in my html and creates a bibliography file and adds a references section to the bottom of my HTML.

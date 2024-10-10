@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="quarto_intro_files/libs/clipboard/clipboard.min.js"></script>
@@ -117,15 +137,85 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You can add options to executable code like this</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
-</div>
-</div>
 <p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
 </section>
+<section id="level-1-header" class="level1">
+<h1>Level 1 Header</h1>
+<p>This is regular plain text.</p>
+<section id="level-2-header" class="level2">
+<h2 class="anchored" data-anchor-id="level-2-header">Level 2 Header</h2>
+<p>Making a bulleted list</p>
+<ul>
+<li>bullet 1</li>
+<li>list item 2</li>
+<li>three
+<ul>
+<li>indented bullet item</li>
+<li>item whatever</li>
+</ul></li>
+</ul>
+<ol type="1">
+<li>Numbered list</li>
+<li>list item 2</li>
+<li>list item 3</li>
+</ol>
+<p>If i want <em>italics</em> I can add an asterics before and after or an <em>underscore</em> before and after</p>
+<p>If I two <strong>two</strong> asterics before and after its <strong>bold</strong></p>
+<p><strong><em>three asterics before and after is bold and italics</em></strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># within curly brackets organizes and names chunk but doesn't show up as title or anything</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># command option i for creating a code chunk on macs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<table class="table">
+<caption>table 1</caption>
+<thead>
+<tr class="header">
+<th>Col1</th>
+<th>Col2</th>
+<th>Col3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><span class="citation" data-cites="funk2023">(<a href="#ref-funk2023" role="doc-biblioref">Funk et al. 2023</a>)</span></p>
 
-</main>
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-funk2023" class="csl-entry" role="listitem">
+Funk, Jennifer L., Sarah Kimball, Monica A. Nguyen, Megan Lulow, and Gregory E. Vose. 2023. <span>“Interacting Ecological Filters Influence Success and Functional Composition in Restored Plant Communities over Time.”</span> <em>Ecological Applications</em> 33 (6). <a href="https://doi.org/10.1002/eap.2899">https://doi.org/10.1002/eap.2899</a>.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
