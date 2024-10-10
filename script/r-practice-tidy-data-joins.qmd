@@ -119,3 +119,28 @@ birds_obs_subset <- birds_obs_subset %>%
 
 ```
 
+Practice using lubridate
+
+```{r}
+
+birds_obs_subset$survey_month <- as.factor(lubridate::month(birds_obs_subset$survey_date))
+
+glimpse(birds_obs_subset)
+
+# try using it with mutate
+   
+birds_obs_subset <- birds_obs_subset %>% 
+  mutate(survey_month = as.factor(lubridate::month(survey_date))) %>% 
+  dplyr::relocate(survey_month,.after = survey_date) %>% 
+  filter(park_name %in% c("Lindo", "Orme", "Palomino", "Sonrisa"))
+
+glimpse(birds_obs_subset)
+
+unique(birds_obs_subset$park_name)
+
+bird_totals <- birds_obs_subset %>% 
+  group_by(park_name, survey_month) %>% 
+  summarise(total = sum(bird_count))
+                                               
+```
+
