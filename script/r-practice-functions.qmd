@@ -1,0 +1,162 @@
+---
+title: "R Practice: Functions"
+author: "Brooke W"
+format: html
+---
+
+## Setup
+
+
+## Warming up with Functions
+
+Write a function that doubles any value you give it.
+```{r}
+double_it <- function(value) {
+  doubled <- value*2
+  return(doubled)
+}
+
+double_it(5)
+```
+
+It worked! Now write a function that returns the string "I am ____ Years Old!" where the blank is the age entered as an argument
+
+```{r}
+exclaim_age <- function(age) {
+  string <- paste0("I am ", age," years old!")
+  return(string)
+}
+
+exclaim_age(5)
+exclaim_age("none of your business")
+```
+
+
+## Functions with conditionals
+
+```{r}
+# "find_max() function" #
+find_max <- function(value_1, value_2) {
+    
+    if (value_1 > value_2) {
+        return(value_1)
+    }
+    else if (value_2 > value_1) {
+        return(value_2)
+    }
+}
+
+find_max(5, 7)
+
+
+7 + find_max(5,7)
+```
+
+It worked!
+
+## Functions with error and warning messages
+```{r}
+find_max(4, 2, 5)
+```
+
+This doesn't work because we have three values entered but the function only wants 2 values. 
+
+```{r}
+find_max <- function(value_1, value_2, value_3 = NULL) {
+    ### error checking
+  if(!is.null(value_3)) stop('Function limited to 2 values')
+  
+    if (value_1 > value_2) {
+        return(value_1)
+    }
+    else if (value_2 > value_1) {
+        return(value_2)
+    }
+}
+
+find_max(4, 2, 5)
+```
+
+Error message worked! However, the one previously provided was fine. Also, this didn't work super well, because now the function expects 3 values
+
+```{r}
+find_max(4,4)
+
+find_max <- function(value_1, value_2, value_3 = NULL) {
+    ### error checking
+  if(!is.null(value_3)) stop('Function limited to 2 values')
+  
+  if(value_1 == value_2) warning('No value returned if two values are equal')
+    if (value_1 > value_2) {
+        return(value_1)
+    }
+    else if (value_2 > value_1) {
+        return(value_2)
+    }
+}
+```
+
+Great job, now what if someone puts a character string in the arguments?
+
+```{r}
+find_max <- function(value_1, value_2, value_3 = NULL) {
+    ### error checking
+  if(!is.null(value_3)) stop('Function limited to 2 values')
+  
+  if(value_1 == value_2) warning('No value returned if two values are equal')
+    if (value_1 > value_2) {
+        return(value_1)
+    }
+    else if (value_2 > value_1) {
+        return(value_2)
+    }
+}
+
+find_max(2, "co")
+
+find_max <- function(value_1, value_2, value_3 = NULL) {
+    ### error checking
+  if(!is.null(value_3)) stop('Function limited to 2 values')
+  
+  if(!is.numeric(value_1) | !is.numeric(value_2)) stop('Values must be numeric')
+  
+  if(value_1 == value_2) warning('No value returned if two values are equal')
+    if (value_1 > value_2) {
+        return(value_1)
+    }
+    else if (value_2 > value_1) {
+        return(value_2)
+    }
+}
+
+find_max("cow", 5)
+
+```
+
+That worked, now values must be numeric!
+
+```{r}
+find_max(4,4)
+
+find_max <- function(value_1, value_2, return_equal = FALSE ) {
+    ### error checking
+  
+  if(!is.numeric(value_1) | !is.numeric(value_2)) stop('Values must be numeric')
+  
+  if(value_1 == value_2 & return_equal == FALSE) warning('No value returned if two values are equal')
+  
+  if(value_1 == value_2 & return_equal == TRUE) {
+    return(value_1)
+  }
+    if (value_1 > value_2) {
+        return(value_1)
+    }
+    else if (value_2 > value_1) {
+        return(value_2)
+    }
+}
+
+find_max(4,4,return_equal = TRUE)
+
+```
+
