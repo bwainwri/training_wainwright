@@ -180,6 +180,88 @@ ggsave(here::here("plots/visits_restore_site_delta.jpg"), width = 12, height = 6
 
 ```
 
+## Interactive tables with DT
+```{r}
+locations <- visits_long %>% 
+  distinct(restore_loc, .keep_all = TRUE) %>% 
+  select(restore_loc, latitude, longitude)
 
+```
+
+```{r}
+# creates an interactive table
+datatable(locations)
+```
+
+## Interactive map with leaflet
+
+```{r}
+# to layer on leaflet we use pipe instead of plus sign
+
+leaflet(locations) %>% 
+  addTiles() %>% 
+  addMarkers(
+    lng = ~longitude,
+    lat = ~latitude,
+    popup = ~restore_loc
+  )
+```
+
+
+THis is so cool. the pop up allows us to hover over points and it tells us the restore loc.
+
+
+Custom Leaflet map
+
+```{r}
+leaflet(locations) %>%
+    addWMSTiles( # add specific tile from this url
+        "https://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WmsServer",
+        layers = "0",
+        options = WMSTileOptions(format = "image/png", transparent = TRUE)) %>%
+    addCircleMarkers(
+        lng = ~ longitude,
+        lat = ~ latitude,
+        popup = ~ restore_loc,
+        radius = 5,
+        # set fill properties
+        fillColor = "salmon",
+        fillOpacity = 1,
+        # set stroke properties
+        stroke = T,
+        weight = 0.5,
+        color = "white",
+        opacity = 1)
+
+# In order to be interactive it needs to be HTML
+# or use shiny apps
+```
+
+Customize base maps
+
+```{r}
+leaflet(locations) %>%
+    addWMSTiles(
+        "https://basemap.nationalmap.gov/arcgis/services/USGSImageryTopo/MapServer/WmsServer",
+        layers = "0",
+        options = WMSTileOptions(format = "image/png", transparent = TRUE)) %>%
+    addWMSTiles(
+        "https://basemap.nationalmap.gov/arcgis/services/USGSHydroCached/MapServer/WmsServer",
+        layers = "0",
+        options = WMSTileOptions(format = "image/png", transparent = TRUE)) %>%
+    addCircleMarkers(
+        lng = ~ longitude,
+        lat = ~ latitude,
+        popup = ~ restore_loc,
+        radius = 5,
+        # set fill properties
+        fillColor = "salmon",
+        fillOpacity = 1,
+        # set stroke properties
+        stroke = T,
+        weight = 0.5,
+        color = "white",
+        opacity = 1)
+```
 
 
